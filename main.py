@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from crawl4ai import WebCrawler
+from crawl4ai import Crawl4AIClient
 
 app = FastAPI()
 
@@ -9,8 +9,9 @@ class CrawlRequest(BaseModel):
 
 @app.post("/crawl")
 async def crawl_page(req: CrawlRequest):
-    crawler = WebCrawler()
-    result = crawler.run(req.url)
+    client = Crawl4AIClient()
+    result = client.run(url=req.url)
+
     return {
         "url": req.url,
         "markdown": result.markdown,
